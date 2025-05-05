@@ -1,5 +1,4 @@
-import CharSquare from "@/components/atoms/charSquare";
-import Word from "@/components/molecules/word";
+
 import GameBoard from "@/components/organs/gameBoard";
 import KeyBoard from "@/components/organs/KeyBoard";
 import NavBar from "@/components/organs/navBar";

@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect } from "react"
 import CharSquare from "../atoms/charSquare"
-import { checkIsRightGuess, checkIsWon, checkWordleGuess, handleKeyUp, isArabicChar, isEnglishChar } from "@/lib/utils"
-import { LetterCheck } from "@/app/types/word.type"
+import { handleKeyUp } from "@/lib/utils"
+
 import useGeneralStore from "@/store/generalSore"
 
 interface WordProps {
@@ -16,14 +16,10 @@ interface WordProps {
 
 export default function Word({ wordValue = "", currWorking = false, tryNumber }: WordProps) {
 
-    const { isGameOver, setTriedWords, setIsGameOver, setIsWon, setIsLost, setIsSettingsModalOpen, numberOfTries, currWord, setCurrWord, backSpace, addChar, result, setResult } = useGeneralStore()
+    const { currWord, result } = useGeneralStore()
 
     useEffect(() => {
-        console.log({ currWord })
-    }, [currWord])
-
-    useEffect(() => {
-        if (currWorking ) {
+        if (currWorking) {
             window.addEventListener("keyup", handleKeyUp)
             return () => {
                 window.removeEventListener("keyup", handleKeyUp)

@@ -14,7 +14,6 @@ type CharSquareProps = {
 }
 
 export default function CharSquare({
-    isDone = false,
     value = "",
     className = "",
     status = "none",

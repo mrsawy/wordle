@@ -1,13 +1,11 @@
 "use client";
-import { checkIsWon, isArabicChar } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react"
+import { useEffect} from "react"
 import Word from "../molecules/word";
 import useGeneralStore from "@/store/generalSore";
-import useDailyReset from "@/hooks/use-daily-reset";
 import { useDailyWord } from "@/lib/hooks/useWords";
 
 export default function GameBoard() {
-    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset, setIsSettingsModalOpen, isHydrated } = useGeneralStore()
+    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset } = useGeneralStore()
     const { data, isSuccess } = useDailyWord()
     useEffect(() => {
         if (isSuccess && data) {

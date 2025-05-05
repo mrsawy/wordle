@@ -10,7 +10,7 @@ import { DialogTitle } from "../ui/dialog";
 import useGeneralStore from "@/store/generalSore";
 const SettingsDialog = () => {
 
-    const { isWon, isLost, isGameOver, isSettingsModalOpen, setIsSettingsModalOpen } = useGeneralStore()
+    const { isWon, isGameOver, isSettingsModalOpen, setIsSettingsModalOpen } = useGeneralStore()
 
     return <ResponsiveDialog open={isSettingsModalOpen} className="z-50" onOpenChange={(open) => { setIsSettingsModalOpen(open) }}>
         <ResponsiveDialogTrigger asChild>

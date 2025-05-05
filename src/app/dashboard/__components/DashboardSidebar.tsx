@@ -31,9 +31,7 @@ const items = [
     },
 ]
 
-type Props = {};
-
-const DashboardSidebar = (props: Props) => {
+const DashboardSidebar = () => {
     return <Sidebar>
         <SidebarContent>
             <SidebarGroup>

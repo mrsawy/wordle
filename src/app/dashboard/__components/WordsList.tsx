@@ -1,15 +1,11 @@
 "use client"
 import { useWords } from '@/lib/hooks/useWords';
-import React, { useEffect } from 'react';
 import WordCard from './WordCard';
 
-type Props = {};
 
-export default function WordsList(props: Props) {
+export default function WordsList() {
     const { data, isError, isLoading, isSuccess } = useWords()
-    useEffect(() => {
-        console.log("Data: ", data)
-    }, [data])
+
     return <div>
         <div className='container mx-auto p-4'>
             <h1 className='text-2xl font-bold text-zinc-50 flex justify-center my-12  underline'>Words List</h1>

@@ -3,7 +3,7 @@
 import { WithId } from '@/app/types/WithId';
 import Icons from '@/components/ui/icons';
 import { WordSchemaType } from '@/lib/schema';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import React from 'react';
 import Swal from 'sweetalert2'
@@ -38,13 +38,21 @@ const WordCard = ({ word, meaning, date, _id }: WithId<WordSchemaType>) => {
                     });
                 }
             }
-            catch (error: any) {
+            catch (error: unknown) {
                 console.error("Error deleting word:", error);
-                Swal.fire({
-                    title: "Error!",
-                    text: "There was an error deleting the word. " + (error?.response?.data?.message ?? error.message),
-                    icon: "error"
-                });
+                if (error instanceof AxiosError) {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "There was an error deleting the word. " + (error?.response?.data?.message ?? error.message),
+                        icon: "error"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "There was an error deleting the word. ",
+                        icon: "error"
+                    });
+                }
             }
         }
 

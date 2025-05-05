@@ -22,7 +22,6 @@ export function checkWordleGuess(
   solution: string = rightWord
 ): LetterCheck[] {
   const result: LetterCheck[] = [];
-  const solutionLetters = solution.split("");
   const taken = Array(solution.length).fill(false);
   // First pass – exact matches
   for (let i = 0; i < guess.length; i++) {

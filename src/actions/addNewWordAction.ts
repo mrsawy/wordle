@@ -18,19 +18,31 @@ export async function addNewWordAction(wordData: WordSchemaType) {
         }
         await Word.create(wordData);
         return { success: true, message: "Word added successfully." };
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.log({ err })
-        // Handle duplicate key error (code 11000)
-        if (err.code === 11000 && err.keyPattern?.day) {
+        if (err instanceof Error) {
+            // Handle duplicate key error (code 11000)
+            if (
+                // @ts-expect-error – custom Mongo error structure
+                err.code === 11000 &&
+                // @ts-expect-error – custom Mongo error structure
+                err.keyPattern?.day
+            ) {
+                return {
+                    success: false,
+                    message: `A word for the date "${wordData.date}" already exists.`,
+                };
+            }
+            // Generic error
             return {
                 success: false,
-                message: `A word for the date "${wordData.date}" already exists.`,
+                message: err.message || 'An unexpected error occurred.',
             };
         }
-        // Generic error
+
         return {
             success: false,
-            message: err.message || 'An unexpected error occurred.',
+            message: "An unknown error occurred.",
         };
     }
 }

@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import React from 'react';
 import AddNewWordDialog from '../__components/AddNewWordDialog';
 import WordsList from '../__components/WordsList';

@@ -3,7 +3,6 @@ import { wordSchema, WordSchemaType } from '@/lib/schema';
 import React from 'react';
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup';
-import { date } from 'yup';
 import {
     Form,
     FormControl,
@@ -21,7 +20,6 @@ import * as yup from "yup";
 
 
 
-import DatePicker from '@/components/atoms/DatePicker';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
@@ -78,11 +76,13 @@ export function AddNewWordForm({ className }: IProps) {
                                 } else {
                                     toast.error(response.message)
                                 }
-                            } catch (error: any) {
+                            } catch (error: unknown) {
                                 if (error instanceof yup.ValidationError) {
-                                    toast.error(error.errors[0])
+                                    toast.error(error.errors[0]);
+                                } else if (error instanceof Error) {
+                                    toast.error(error.message);
                                 } else {
-                                    toast.error(error?.message ?? "")
+                                    toast.error("An unknown error occurred");
                                 }
                             }
                         }

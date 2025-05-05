@@ -5,10 +5,8 @@ import * as React from 'react';
 import Icons from '../ui/icons';
 import { handleKeyUp } from '@/lib/utils';
 
-export interface IKeyBoardProps {
-}
 
-export default function KeyBoard(props: IKeyBoardProps) {
+export default function KeyBoard() {
     return (
         <div className='flex flex-col gap-2 items-center justify-center flex-wrap'>
             {ARABIC_LETTERS.map((lettersGroup, index) => {

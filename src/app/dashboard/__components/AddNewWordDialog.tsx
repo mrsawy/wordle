@@ -10,7 +10,6 @@ import {
 import { DialogTitle } from "@/components//ui/dialog";
 import { AddNewWordForm } from "./AddNewWordForm";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 const AddNewWordDialog = () => {
     return <ResponsiveDialog
         className="z-50" >

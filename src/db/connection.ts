@@ -4,11 +4,9 @@ const MONGO_URI = process.env.MONGO_URI as string;
 
 if (!MONGO_URI) {
     throw new Error('Please define the MONGODB_URI environment variable');
-}
-
-(global as any)._mongoose = undefined
-// Extend global type to allow caching
+}// Extend global type to allow caching
 declare global {
+    // eslint-disable-next-line no-var
     var __mongoose: {
         conn: typeof mongoose | null;
         promise: Promise<typeof mongoose> | null;

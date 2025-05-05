@@ -1,4 +1,4 @@
-import { object, string, InferType, date, mixed } from 'yup';
+import { object, string, InferType, mixed } from 'yup';
 
 export const wordSchema = object({
     word: string().required().length(5),

@@ -3,7 +3,6 @@ import { ToastContainer } from 'react-toastify';
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Provider from "./Provider";
 
 const geistSans = Geist({
