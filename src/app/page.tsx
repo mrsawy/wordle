@@ -4,7 +4,12 @@ import KeyBoard from "@/components/organs/KeyBoard";
 import NavBar from "@/components/organs/navBar";
 import "@/style/style.css"
 
-export default function Home() {
+import { dbConnect } from '@/db/connection';
+import Word from '@/db/models/Word';
+export default async function Home() {
+  await dbConnect();
+  const date = (new Date()).toISOString().split('T')[0];
+  const word = await Word.findOne({ date }).exec();
 
   return (
     <div className="min-h-screen flex flex-col justify-between">
@@ -13,7 +18,7 @@ export default function Home() {
           <NavBar />
         </div>
         <div className="content">
-          <GameBoard />
+          <GameBoard dailyWord={word} />
         </div>
       </div>
       <div className="keyboard mb-14">

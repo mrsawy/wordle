@@ -1,28 +1,35 @@
 "use client";
-import { useEffect} from "react"
+import { useEffect } from "react"
 import Word from "../molecules/word";
 import useGeneralStore from "@/store/generalSore";
-import { useDailyWord } from "@/lib/hooks/useWords";
+import { WithId } from "@/app/types/WithId";
+import { WordSchemaType } from "@/lib/schema";
 
-export default function GameBoard() {
-    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset } = useGeneralStore()
-    const { data, isSuccess } = useDailyWord()
+export default function GameBoard({ dailyWord }: { dailyWord: WithId<WordSchemaType> }) {
+    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset, hasHydrated, readyToGo, setReadyToGo } = useGeneralStore()
     useEffect(() => {
-        if (isSuccess && data) {
-            const word = data.word.toLowerCase();
-            if (rightWord == word) {
-                useGeneralStore.persist.rehydrate();
-            } else {
-                setRightWord(word);
-                reset();
-            }
+        setReadyToGo(false)
+
+        if (!hasHydrated) return;
+
+        const word = dailyWord.word.toLowerCase();
+        console.log({ rightWord, word });
+
+        if (rightWord !== word) {
+            setRightWord(word);
+            reset();
+            setReadyToGo(true)
+        } else {
+            setReadyToGo(true)
         }
-    }, [data, isSuccess])
+    }, [hasHydrated]);
+
     useEffect(() => {
-        setResult();
-    }, [triedWords])
+        if (hasHydrated) setResult();
+    }, [triedWords, hasHydrated]);
+
     return <div className="flex flex-col gap-3 items-center justify-center">
-        {[...Array(numberOfTries)].map((_, index) => {
+        {readyToGo && [...Array(numberOfTries)].map((_, index) => {
             return <Word currWorking={triedWords.length == index} wordValue={triedWords[index]} key={index} tryNumber={index} />
         })}
 

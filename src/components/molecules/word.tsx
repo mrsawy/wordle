@@ -16,7 +16,9 @@ interface WordProps {
 
 export default function Word({ wordValue = "", currWorking = false, tryNumber }: WordProps) {
 
-    const { currWord, result } = useGeneralStore()
+    const { currWord, result, readyToGo } = useGeneralStore()
+
+    console.log({ result })
 
     useEffect(() => {
         if (currWorking) {
@@ -24,14 +26,13 @@ export default function Word({ wordValue = "", currWorking = false, tryNumber }:
             return () => {
                 window.removeEventListener("keyup", handleKeyUp)
             }
-
         }
     }, [currWorking, currWord])
 
     return <>
         <div className="flex flex-row-reverse flex-nowrap gap-1">
             {[...Array(5)].map((_, index) => <CharSquare
-                shouldReveal={!!result[tryNumber]}
+                shouldReveal={readyToGo && !!result[tryNumber]}
                 delay={(index * 300)}
                 status={result[tryNumber]?.[index].status ?? "none"}
                 value={wordValue ? wordValue[index] : currWorking ? currWord[index] : ""} key={index} />)}

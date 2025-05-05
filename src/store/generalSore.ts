@@ -30,6 +30,10 @@ type GeneralStore = {
     lastPlayedDate: string
     setLastPlayedDate: (date: string) => void
     reset: () => void
+    hasHydrated: boolean
+    setHasHydrated: (state: boolean) => void
+    readyToGo: boolean
+    setReadyToGo: (state: boolean) => void
 }
 const useGeneralStore = create<GeneralStore>()(
     persist(
@@ -68,6 +72,9 @@ const useGeneralStore = create<GeneralStore>()(
                 })),
             lastPlayedDate: new Date().toISOString().split("T")[0],
             setLastPlayedDate: (date) => set({ lastPlayedDate: date }),
+            hasHydrated: false,
+            setHasHydrated: (state: boolean) => set({ hasHydrated: state }),
+
             reset: () =>
                 set({
                     triedWords: [],
@@ -79,9 +86,16 @@ const useGeneralStore = create<GeneralStore>()(
                     isLoading: false,
                 }),
 
+            setReadyToGo: (state: boolean) => set({ readyToGo: state }),
+            readyToGo: false,
+
+
         }),
         {
             name: "general-store",
+            onRehydrateStorage: () => (state) => {
+                state?.setHasHydrated(true);
+            },
         }
     )
 )
