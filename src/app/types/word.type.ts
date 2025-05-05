@@ -1,4 +1,4 @@
-export type LetterStatus = "correct" | "present" | "absent";
+export type LetterStatus = "correct" | "present" | "absent"| "none";
 
 export interface LetterCheck {
   letter: string;

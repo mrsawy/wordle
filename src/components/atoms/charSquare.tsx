@@ -1,22 +1,47 @@
 "use client"
 
 import { LetterStatus } from "@/app/types/word.type"
-import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
+type CharSquareProps = {
+    isDone?: boolean
+    value?: string
+    className?: string
+    status?: LetterStatus
+    delay?: number
+    shouldReveal?: boolean
+}
 
+export default function CharSquare({
+    isDone = false,
+    value = "",
+    className = "",
+    status = "none",
+    delay = 0,
+    shouldReveal = false,
+}: CharSquareProps) {
+    const [flipped, setFlipped] = useState(false)
 
+    useEffect(() => {
+        if (shouldReveal) {
+            setTimeout(() => {
+                setFlipped(true)
+            }, delay)
+        }
+    }, [shouldReveal, delay])
 
-export default function CharSquare({ isDone, value = "", className = "", status = "absent" }: { isDone: boolean, value?: string, className?: string, status?: LetterStatus }) {
-
-    return <div
-        className={cn(
-            "size-12 lg:size-24 text-center text-xl lg:text-6xl leading-[2] md:leading-[1.4] uppercase p-0 font-medium caret-transparent focus:outline-none focus:ring-2 border-2 border-zinc-500 rounded-md bg-zinc-900 text-zinc-200 ",
-            status === "correct" ? "bg-green-500 text-zinc-900" : status === "present" ? "bg-yellow-500 text-zinc-900" : status === "absent" && !isDone ? "bg-zinc-700 text-zinc-900" : "bg-zinc-900 text-zinc-900"
-            , className
-        )}
-    >
-        {value}
-    </div>
+    return (
+        <div className={cn(
+            "flip-wrapper",
+            flipped && "spin-x",
+            className,
+            "flex justify-center items-center size-12 lg:size-16 text-center uppercase p-0 font-medium caret-transparent focus:outline-none focus:ring-2 "
+        )}>
+            <div className="flip-inner border border-zinc-500 rounded">
+                <div className="front border border-zinc-500">{value}</div>
+                <div className={cn("back border border-zinc-500", status)}>{value}</div>
+            </div>
+        </div>
+    )
 }

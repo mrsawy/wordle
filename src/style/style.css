@@ -1,0 +1,81 @@
+.flip-wrapper {
+  perspective: 1000px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out;
+}
+
+.flip-wrapper.spin-x .flip-inner {
+  transform: rotateX(180deg);
+  border: none !important;
+}
+
+.front,
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-radius: 0.14rem;
+}
+
+/* front side */
+.front {
+  background-color: #18181b;
+  color: #e4e4e7;
+  transform: rotateX(0deg);
+}
+
+/* back side with color based on status */
+.back {
+  transform: rotateX(180deg);
+}
+
+.back.correct {
+  background-color: #22c55e;
+  color: #18181b;
+}
+
+.back.present {
+  background-color: #9b7e26;
+  color: #ffffff;
+}
+
+.back.absent {
+  background-color: #3f3f46;
+  color: #ffffff;
+}
+
+@layer base {
+  :root {
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
