@@ -7,14 +7,17 @@ import { WordSchemaType } from "@/lib/schema";
 
 export default function GameBoard({ dailyWord }: { dailyWord: WithId<WordSchemaType> | string }) {
     dailyWord = (typeof dailyWord === "string" ? JSON.parse(dailyWord) : dailyWord) as WithId<WordSchemaType>;
-    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset, hasHydrated, readyToGo, setReadyToGo } = useGeneralStore()
+    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset, hasHydrated, readyToGo, setReadyToGo, setTriedWords } = useGeneralStore()
     useEffect(() => {
         setReadyToGo(false)
 
         const word = dailyWord.word.toLowerCase();
         console.log({ rightWord, word });
 
-        if (!hasHydrated) { setRightWord(word); return; }
+        if (!hasHydrated) {
+            // setRightWord(word);
+            return;
+        }
 
         if (rightWord !== word) {
             setRightWord(word);
