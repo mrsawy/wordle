@@ -2,6 +2,9 @@ import { dbConnect } from '@/db/connection';
 import Word from '@/db/models/Word';
 import { NextRequest, NextResponse } from 'next/server'
 
+export const dynamic = 'force-static'
+
+
 export async function GET(req: NextRequest) {
     await dbConnect();
     const searchParams = req.nextUrl.searchParams;

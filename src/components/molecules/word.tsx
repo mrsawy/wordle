@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import CharSquare from "../atoms/charSquare"
-import { handleKeyUp } from "@/lib/utils"
+import { cn, handleKeyUp } from "@/lib/utils"
 
 import useGeneralStore from "@/store/generalSore"
 
@@ -14,9 +14,9 @@ interface WordProps {
     tryNumber: number
 }
 
-export default function Word({ wordValue = "", currWorking = false, tryNumber }: WordProps) {
+export default function Word({ wordValue = "", currWorking = false, tryNumber, }: WordProps) {
 
-    const { currWord, result, readyToGo } = useGeneralStore()
+    const { currWord, result, readyToGo, shouldShake, setShouldShake } = useGeneralStore()
 
     console.log({ result })
 
@@ -29,8 +29,17 @@ export default function Word({ wordValue = "", currWorking = false, tryNumber }:
         }
     }, [currWorking, currWord])
 
+
+    useEffect(() => {
+        if (shouldShake && currWorking) {
+            const timeout = setTimeout(() => setShouldShake(false), 400);
+            return () => clearTimeout(timeout);
+        }
+    }, [shouldShake, currWorking]);
+
+
     return <>
-        <div className="flex flex-row-reverse flex-nowrap gap-1">
+        <div className={cn("flex flex-row-reverse flex-nowrap gap-1 ", (shouldShake && currWorking) ? "shake" : "")}>
             {[...Array(5)].map((_, index) => <CharSquare
                 shouldReveal={readyToGo && !!result[tryNumber]}
                 delay={(index * 300)}

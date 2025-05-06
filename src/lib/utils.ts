@@ -2,7 +2,9 @@
 
 import { LetterCheck } from "@/app/types/word.type";
 import useGeneralStore from "@/store/generalSore";
+import axios from "axios";
 import { clsx, type ClassValue } from "clsx"
+import { toast } from "react-toastify";
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -75,7 +77,7 @@ export function checkIsWon(guesses: string[]) {
 
 }
 
-export const handleKeyUp = (e: KeyboardEvent | string) => {
+export const handleKeyUp = async (e: KeyboardEvent | string) => {
 
   if (useGeneralStore.getState().isGameOver) return
 
@@ -91,8 +93,30 @@ export const handleKeyUp = (e: KeyboardEvent | string) => {
     useGeneralStore.getState().backSpace()
     return
   }
+
   if (key.toLowerCase() === "Enter".toLowerCase()) {
-    if (useGeneralStore.getState().currWord.length < 5) return
+
+    // console.log({ useGeneralStore })
+
+
+    if (useGeneralStore.getState().currWord.length < 5) {
+      console.log("not enough letters")
+      useGeneralStore.getState().setShouldShake(true)
+      toast.warning("يجب أن تحتوي الكلمة على 5 حروف")
+      return
+    }
+
+    const toBeAdded = useGeneralStore.getState().currWord;
+
+
+    const validArWord = (await fetch("/api/words/dictionary/ar/" + toBeAdded)).ok
+
+    if (!validArWord) {
+      useGeneralStore.getState().setShouldShake(true)
+      toast.warning("هذة الكلمة ليست في قائمة الكلمات")
+      return
+    }
+
     const newTriedWords = [...useGeneralStore.getState().triedWords, useGeneralStore.getState().currWord];
     useGeneralStore.getState().setTriedWords(newTriedWords)
 
@@ -126,3 +150,29 @@ export const handleKeyUp = (e: KeyboardEvent | string) => {
   useGeneralStore.getState().addChar(key)
 
 }
+
+
+
+
+export const testValidAr = async (arabicWord: string) => {
+  try {
+    const arabicRegex = /^[\u0600-\u06FF\s]+$/; // Arabic characters and spaces only
+    if (!arabicRegex.test(arabicWord)) throw new Error("Invalid Arabic word")
+
+    const response = await axios.get((process.env.AR_API as string) + arabicWord)
+
+    console.log({ response })
+
+    if (response.status !== 200) throw new Error("Invalid Arabic word");
+
+    return true
+  } catch (error: unknown) {
+    console.error(error)
+    return false
+  }
+};
+
+// export const fireError = (message: string) => {
+//   useGeneralStore.getState().setErrorMessage(message)
+//   useGeneralStore.getState().setIsErrorModalOpen(true)
+// }

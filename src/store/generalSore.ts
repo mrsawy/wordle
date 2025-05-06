@@ -34,6 +34,8 @@ type GeneralStore = {
     setHasHydrated: (state: boolean) => void
     readyToGo: boolean
     setReadyToGo: (state: boolean) => void
+    shouldShake: boolean
+    setShouldShake: (state: boolean) => void
 }
 const useGeneralStore = create<GeneralStore>()(
     persist(
@@ -89,7 +91,8 @@ const useGeneralStore = create<GeneralStore>()(
             setReadyToGo: (state: boolean) => set({ readyToGo: state }),
             readyToGo: false,
 
-
+            shouldShake: false,
+            setShouldShake: (state: boolean) => set({ shouldShake: state }),
         }),
         {
             name: "general-store",
