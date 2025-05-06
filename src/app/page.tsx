@@ -6,6 +6,12 @@ import "@/style/style.css"
 
 import { dbConnect } from '@/db/connection';
 import Word from '@/db/models/Word';
+
+
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Home() {
   await dbConnect();
   const date = (new Date()).toISOString().split('T')[0];
