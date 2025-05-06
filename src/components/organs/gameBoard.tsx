@@ -5,15 +5,16 @@ import useGeneralStore from "@/store/generalSore";
 import { WithId } from "@/app/types/WithId";
 import { WordSchemaType } from "@/lib/schema";
 
-export default function GameBoard({ dailyWord }: { dailyWord: WithId<WordSchemaType> }) {
+export default function GameBoard({ dailyWord }: { dailyWord: WithId<WordSchemaType> | string }) {
+    dailyWord = (typeof dailyWord === "string" ? JSON.parse(dailyWord) : dailyWord) as WithId<WordSchemaType>;
     const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset, hasHydrated, readyToGo, setReadyToGo } = useGeneralStore()
     useEffect(() => {
         setReadyToGo(false)
 
-        if (!hasHydrated) return;
-
         const word = dailyWord.word.toLowerCase();
         console.log({ rightWord, word });
+
+        if (!hasHydrated) { setRightWord(word); return; }
 
         if (rightWord !== word) {
             setRightWord(word);
@@ -25,8 +26,8 @@ export default function GameBoard({ dailyWord }: { dailyWord: WithId<WordSchemaT
     }, [hasHydrated]);
 
     useEffect(() => {
-        if (hasHydrated) setResult();
-    }, [triedWords, hasHydrated]);
+        setResult();
+    }, [triedWords, hasHydrated, rightWord]);
 
     return <div className="flex flex-col gap-3 items-center justify-center">
         {readyToGo && [...Array(numberOfTries)].map((_, index) => {

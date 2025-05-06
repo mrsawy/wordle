@@ -15,8 +15,10 @@ export const revalidate = 0;
 export default async function Home() {
   await dbConnect();
   const date = (new Date()).toISOString().split('T')[0];
-  const word = await Word.findOne({ date }).exec();
+  const wordDoc = await Word.findOne({ date }).exec();
+  const word = JSON.stringify(wordDoc?.toObject());
 
+  console.log({ word, wordDoc });
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <div className="items-center justify-items-center pb-20 pt-0 gap-16 font-[family-name:var(--font-geist-sans)]  bg-zinc-900 text-white w-full flex flex-col  mx-auto">
