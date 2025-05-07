@@ -53,7 +53,7 @@ export default function KeyBoard() {
                                         handleKeyUp(letter)
                                     }}
                                     key={index}
-                                    className={twMerge(' w-full hover:cursor-pointer  transition-all duration-300 h-12 min-w-6  md:min-h-14 md:min-w-14 p-[0.55rem] lg:px-4  bg-zinc-600 rounded-md flex items-center justify-center text-white text-lg md:text-xl font-bold ', `key ${keyColors[letter] || 'bg-zinc-600 '}`, letter == "enter" ? "bg-blue-500" : letter == "backspace" ? "bg-red-500" : "")} >
+                                    className={twMerge(' w-full hover:cursor-pointer  transition-all duration-300 h-12 min-w-6  sm:min-h-14 sm:min-w-14 p-[0.55rem] lg:px-4  bg-zinc-600 rounded-md flex items-center justify-center text-white text-lg md:text-xl font-bold ', `key ${keyColors[letter] || 'bg-zinc-600 '}`, letter == "enter" ? "bg-blue-500" : letter == "backspace" ? "bg-red-500" : "")} >
                                     {letter == "enter" ?
                                         <Icons.enter className="size-5" /> : letter == "backspace" ? <Icons.backspace className="size-5" /> : letter
                                     }

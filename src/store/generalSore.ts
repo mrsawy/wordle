@@ -68,10 +68,12 @@ const useGeneralStore = create<GeneralStore>()(
                     currWord: state.currWord.length < 5 ? state.currWord + char : state.currWord,
                 })),
             result: [],
-            setResult: () =>
+            setResult: () => {
                 set(() => ({
                     result: get().triedWords.map((word) => checkWordleGuess(word, get().rightWord)),
-                })),
+                }))
+                return get().result
+            },
             lastPlayedDate: new Date().toISOString().split("T")[0],
             setLastPlayedDate: (date) => set({ lastPlayedDate: date }),
             hasHydrated: false,

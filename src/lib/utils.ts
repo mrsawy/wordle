@@ -63,12 +63,17 @@ export function checkIsRightGuess(checkResult: LetterCheck[]) {
 }
 
 
-export function checkIsWon(guesses: string[]) {
+export function checkIsWon(guesses: string[], solution: string = rightWord) {
   let isWon = false;
   for (const guess of guesses) {
-    const checkResult = checkWordleGuess(guess);
+    const checkResult = checkWordleGuess(guess, solution);
+    console.log({ checkResult })
     const guessedRight = checkIsRightGuess(checkResult)
+    console.log({ guessedRight })
+
     if (guessedRight) {
+
+
       isWon = true;
       break
     }
@@ -121,26 +126,6 @@ export const handleKeyUp = async (e: KeyboardEvent | string) => {
     useGeneralStore.getState().setTriedWords(newTriedWords)
 
 
-    const isWon = checkIsWon(newTriedWords);
-
-    if (isWon) {
-      useGeneralStore.getState().setIsWon(isWon);
-      useGeneralStore.getState().setIsLost(!isWon);
-      useGeneralStore.getState().setIsGameOver(true);
-      useGeneralStore.getState().setIsSettingsModalOpen(true)
-      useGeneralStore.getState().setCurrWord("")
-      return
-    }
-
-    if (newTriedWords.length == useGeneralStore.getState().numberOfTries) {
-      useGeneralStore.getState().setIsGameOver(true);
-      useGeneralStore.getState().setIsLost(true);
-      useGeneralStore.getState().setIsWon(false);
-      useGeneralStore.getState().setIsSettingsModalOpen(true)
-      useGeneralStore.getState().setCurrWord("")
-
-      return
-    }
     useGeneralStore.getState().setCurrWord("")
     return
   }

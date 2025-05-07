@@ -4,10 +4,19 @@ import Word from "../molecules/word";
 import useGeneralStore from "@/store/generalSore";
 import { WithId } from "@/app/types/WithId";
 import { WordSchemaType } from "@/lib/schema";
+import { checkIsWon } from "@/lib/utils";
 
 export default function GameBoard({ dailyWord }: { dailyWord: WithId<WordSchemaType> | string }) {
     dailyWord = (typeof dailyWord === "string" ? JSON.parse(dailyWord) : dailyWord) as WithId<WordSchemaType>;
-    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset, hasHydrated, setReadyToGo, setTriedWords } = useGeneralStore()
+    const { triedWords, numberOfTries, setResult, rightWord, setRightWord, reset, hasHydrated, setReadyToGo, setTriedWords,
+        setIsWon,
+        setIsLost,
+        setIsGameOver,
+        setIsSettingsModalOpen,
+        setCurrWord,
+    } = useGeneralStore()
+
+
     useEffect(() => {
         setReadyToGo(false)
 
@@ -30,8 +39,38 @@ export default function GameBoard({ dailyWord }: { dailyWord: WithId<WordSchemaT
     }, [hasHydrated]);
 
     useEffect(() => {
-        setResult();
+        const result = setResult();
+
+
+        const isWon = checkIsWon(triedWords, rightWord);
+        console.log({ triedWords, rightWord, result, isWon });
+
+        if (isWon) {
+            setIsWon(true);
+            setIsLost(false);
+            setIsGameOver(true);
+            setIsSettingsModalOpen(true)
+            setCurrWord("")
+            return
+        }
+
+        if (triedWords.length == useGeneralStore.getState().numberOfTries) {
+            setIsGameOver(true);
+            setIsLost(true);
+            setIsWon(false);
+            setIsSettingsModalOpen(true)
+            setCurrWord("")
+
+            return
+        }
+
+
     }, [triedWords, hasHydrated, rightWord]);
+
+    useEffect(() => {
+
+
+    }, []);
 
     return <div className="flex flex-col gap-3 items-center justify-center">
         {[...Array(numberOfTries)].map((_, index) => {
