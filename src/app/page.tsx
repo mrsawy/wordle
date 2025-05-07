@@ -20,17 +20,17 @@ export default async function Home() {
 
   console.log({ word, wordDoc });
   return (
-    <div className="min-h-screen flex flex-col justify-between">
-      <div className="items-center justify-items-center pb-20 pt-0 gap-16 font-[family-name:var(--font-geist-sans)]  bg-zinc-900 text-white w-full flex flex-col  mx-auto">
-        <div className="header w-full">
-          <NavBar />
-        </div>
+    <div className="h-screen flex flex-col justify-between">
+      <div className="header w-full">
+        <NavBar />
+      </div>
+      <div className="items-center justify-items-center pt-0 gap-16 font-[family-name:var(--font-geist-sans)]  bg-zinc-900 text-white w-full h-full mx-auto flex flex-col justify-around mt-3">
         <div className="content">
           <GameBoard dailyWord={word} />
         </div>
-      </div>
-      <div className="keyboard mb-14">
-        <KeyBoard />
+        <div className="keyboard mb-14">
+          <KeyBoard />
+        </div>
       </div>
     </div>
   );

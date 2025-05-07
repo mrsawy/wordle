@@ -38,18 +38,22 @@ export default function KeyBoard() {
         setKeyColors(newKeyColors);
     }, [result]);
 
+    React.useEffect(() => {
+        console.log(useGeneralStore)
+    }, [useGeneralStore])
     return (
-        <div className='flex flex-col gap-2 items-center justify-center flex-wrap w-[96%] max-w-4xl mx-auto'>
+        <div className='flex flex-col gap-2 items-center justify-center flex-wrap w-[99%] max-w-4xl mx-auto'>
             {ARABIC_LETTERS.map((lettersGroup, index) => {
                 return (
-                    <div key={index} className='flex flex-row gap-1 flex-nowrap w-full '>
+                    <div key={index} className='flex flex-row gap-[3px] flex-nowrap w-full '>
                         {lettersGroup.map((letter, index) => {
                             return (
                                 <div
                                     onClick={() => {
                                         handleKeyUp(letter)
                                     }}
-                                    key={index} className={twMerge(' w-full hover:cursor-pointer  transition-all duration-300 h-12 min-w-6  md:min-h-14 md:min-w-14 p-[0.55rem] lg:px-4  bg-zinc-600 rounded-md flex items-center justify-center text-white text-lg md:text-xl font-bold ', `key ${keyColors[letter] || 'bg-zinc-600 '}`)} >
+                                    key={index}
+                                    className={twMerge(' w-full hover:cursor-pointer  transition-all duration-300 h-12 min-w-6  md:min-h-14 md:min-w-14 p-[0.55rem] lg:px-4  bg-zinc-600 rounded-md flex items-center justify-center text-white text-lg md:text-xl font-bold ', `key ${keyColors[letter] || 'bg-zinc-600 '}`, letter == "enter" ? "bg-blue-500" : letter == "backspace" ? "bg-red-500" : "")} >
                                     {letter == "enter" ?
                                         <Icons.enter className="size-5" /> : letter == "backspace" ? <Icons.backspace className="size-5" /> : letter
                                     }
