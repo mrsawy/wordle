@@ -40,7 +40,7 @@ type GeneralStore = {
 const useGeneralStore = create<GeneralStore>()(
     persist(
         (set, get) => ({
-            rightWord: "سفينة",
+            rightWord: "",
             setRightWord: (word: string) => set(() => ({ rightWord: word })),
             triedWords: [],
             setTriedWords: (words: string[]) => set(() => ({ triedWords: words })),
